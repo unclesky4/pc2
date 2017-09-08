@@ -46,9 +46,8 @@ public class Administrator {
 			Properties problemProperties = new Properties();
 			File dataFile = new File(Administrator.class.getResource("/JudgeDataFile.input").toURI());
 			File answerFile = new File(Administrator.class.getResource("/JudgeAnswerFile.output").toURI());
-			problemProperties.setProperty("JUDGING_TYPE", "JUDGING_TYPE");
-			problemProperties.setProperty("VALIDATOR_PROGRAM", "VALIDATOR_PROGRAM");
-			problemProperties.setProperty("VALIDATOR_COMMAND_LINE", "VALIDATOR_COMMAND_LINE");
+			problemProperties.setProperty("JUDGING_TYPE", "COMPUTER_AND_MANUAL_JUDGING");
+			problemProperties.setProperty("VALIDATOR_PROGRAM", "pc2.jar edu.csus.ecs.pc2.validator.Validator");
 //			serverConnection.addProblem("输入两个整数，求他们的和", "两数求和", dataFile, answerFile, true, problemProperties);
 			
 			//获取服务器，contest的信息
@@ -59,10 +58,10 @@ public class Administrator {
 			
 			
 			//设置考试时间
-			serverConnection.setContestTimes((long)1200, (long)0, (long)1200);
+			//serverConnection.setContestTimes((long)1200, (long)0, (long)1200);
 			
 			//开启考试
-			serverConnection.startContestClock();
+			//serverConnection.startContestClock();
 			
 			//判断是否开始考试
 			System.out.println("---判断是否开始考试---------");
@@ -75,7 +74,7 @@ public class Administrator {
 			System.out.println(contest.getContestClock().getRemainingSecs());
 			
 			//停止考试
-			serverConnection.stopContestClock();
+			//serverConnection.stopContestClock();
 			
 			
 			//获取绝对路径
