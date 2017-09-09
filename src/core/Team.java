@@ -1,4 +1,6 @@
 package core;
+import edu.csus.ecs.pc2.api.ClarificationListenerUtils;
+import edu.csus.ecs.pc2.api.IClarification;
 import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.IJudgement;
 import edu.csus.ecs.pc2.api.IProblem;
@@ -8,7 +10,12 @@ import edu.csus.ecs.pc2.api.ServerConnection;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 
-public class Team {
+/**
+ * TEAM角色的功能
+ * @author uncle 02/09/2017
+ *
+ */
+public class Team extends ClarificationListenerUtils{
 
 	public static void main(String[] args) {
 		//连接服务器
@@ -57,6 +64,7 @@ public class Team {
        */
 //		serverConnection.submitRun(iProblems[0], language, mainFileName, additionalFileNames, overrideSubmissionTimeMS, overrideRunId);
 		
+		//team提交Clarification --> clarificationAdded（） --> getClarifications() -->  	clarificationAnswered -->  	clarificationUpdated
 		//提交Clarification (前提：开启考试  startContestClock)
 		if(iProblems[0] != null){
 			try {
@@ -65,6 +73,7 @@ public class Team {
 				e.printStackTrace();
 			}
 		}
+		
 		
 		//查看judement
 		System.out.println("查看judement");

@@ -9,7 +9,11 @@ import edu.csus.ecs.pc2.api.ServerConnection;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.api.implementation.Contest;
-
+/**
+ * ADMINISTRATOR角色的功能
+ * @author unclesky4 02/09/2017
+ *
+ */
 public class Administrator {
 
 	public static void main(String[] args) {
@@ -22,11 +26,12 @@ public class Administrator {
 	//		serverConnection.addAccount("JUDGE", "judge1", "judge1");
 
 			//添加编程语言
-			/*serverConnection.addLanguage("Java", "javac {:mainfile}", "java {:basename}", false, "{:basename}.class");
-			serverConnection.addLanguage("GNU C", "gcc -lm -o {:basename}.exe {:mainfile}", "./{:basename}.exe", false, "{:basename}.exe");
+			/*serverConnection.addLanguage("Java", "javac {:mainfile}", "java {:basename}", true, "{:basename}.class");
+			serverConnection.addLanguage("GNU C", "gcc -lm -o {:basename}.exe {:mainfile}", "./{:basename}.exe", true, "{:basename}.exe");
 			serverConnection.addLanguage("GNU C++", "g++ -lm -o {:basename}.exe {:mainfile}", "./{:basename}.exe", true, "{:basename}.exe");
-			serverConnection.addLanguage("PHP", "php -l {:mainfile}", "php {:mainfile}", false, "");
-			serverConnection.addLanguage("Python", "python -m py_compile {:mainfile}", "python {:mainfile}", false, "");*/
+			serverConnection.addLanguage("PHP", "php -l {:mainfile}", "php {:mainfile}", true, "");
+			serverConnection.addLanguage("Python", "python -m py_compile {:mainfile}", "python {:mainfile}", true, "");
+			*/
 			
 			/*serverConnection.addLanguage("Java");
 			serverConnection.addLanguage("GNU C++ (Unix / Windows)");
@@ -35,13 +40,6 @@ public class Administrator {
 			serverConnection.addLanguage("Microsoft C++");
 			serverConnection.addLanguage("Python");*/
 			
-			
-			//获取问题的PropertyNames  
-			String names[] = serverConnection.getProblemPropertyNames();
-			for(String tmp : names){
-				System.out.println(tmp);
-			}
-			
 			//添加题目
 			Properties problemProperties = new Properties();
 			File dataFile = new File(Administrator.class.getResource("/JudgeDataFile.input").toURI());
@@ -49,13 +47,6 @@ public class Administrator {
 			problemProperties.setProperty("JUDGING_TYPE", "COMPUTER_AND_MANUAL_JUDGING");
 			problemProperties.setProperty("VALIDATOR_PROGRAM", "pc2.jar edu.csus.ecs.pc2.validator.Validator");
 //			serverConnection.addProblem("输入两个整数，求他们的和", "两数求和", dataFile, answerFile, true, problemProperties);
-			
-			//获取服务器，contest的信息
-			System.out.println("获取服务器，contest的信息");
-			System.out.println(contest.getContestTitle());
-			System.out.println(contest.getTitle());
-			System.out.println(contest.getSiteName());
-			
 			
 			//设置考试时间
 			//serverConnection.setContestTimes((long)1200, (long)0, (long)1200);
