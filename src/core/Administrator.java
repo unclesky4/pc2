@@ -1,11 +1,9 @@
 package core;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.Properties;
 
+import core.function.common.ServerConnection;
 import edu.csus.ecs.pc2.api.APIConstants;
-import edu.csus.ecs.pc2.api.ServerConnection;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.api.implementation.Contest;
@@ -40,13 +38,19 @@ public class Administrator {
 			serverConnection.addLanguage("Microsoft C++");
 			serverConnection.addLanguage("Python");*/
 			
+			System.out.println("------------");
+			System.out.println(serverConnection.isValidAutoFillLangauageName("GNU C++ (Unix / Windows)"));
+			System.out.println(serverConnection.isValidAutoFillLangauageName("GNU C (Unix / Windows)"));
+			System.out.println("是否为ADMINISTRATOR角色："+serverConnection.isValidAccountTypeName("ADMINISTRATOR"));
+			
 			//添加题目
 			Properties problemProperties = new Properties();
 			File dataFile = new File(Administrator.class.getResource("/JudgeDataFile.input").toURI());
 			File answerFile = new File(Administrator.class.getResource("/JudgeAnswerFile.output").toURI());
 			problemProperties.setProperty("JUDGING_TYPE", "COMPUTER_AND_MANUAL_JUDGING");
 			problemProperties.setProperty("VALIDATOR_PROGRAM", "pc2.jar edu.csus.ecs.pc2.validator.Validator");
-//			serverConnection.addProblem("输入两个整数，求他们的和", "两数求和", dataFile, answerFile, true, problemProperties);
+			problemProperties.setProperty("VALIDATOR_COMMAND_LINE", "DEFAULT_INTERNATIONAL_VALIDATOR_COMMAND"); 
+			serverConnection.addProblem("输入两个整数，求他们的和_7", "两数求和_7", dataFile, answerFile, true, problemProperties, 70);
 			
 			//设置考试时间
 			//serverConnection.setContestTimes((long)1200, (long)0, (long)1200);
@@ -74,7 +78,7 @@ public class Administrator {
 //			System.out.println(ClassLoader.getSystemResource("")); 
 //			System.out.println(Thread.currentThread().getContextClassLoader().getResource(""));
 			
-			if(dataFile.exists() && !dataFile.isDirectory()){
+			/*if(dataFile.exists() && !dataFile.isDirectory()){
 				BufferedReader br=new BufferedReader(new FileReader(dataFile));
 		        String temp=null;
 		        StringBuffer sb=new StringBuffer();
@@ -85,7 +89,7 @@ public class Administrator {
 		        }
 			 }else{
 				 System.out.println("not file");
-			 }
+			 }*/
 			
 			
 

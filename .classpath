@@ -10,5 +10,8 @@
 	<classpathentry kind="lib" path="src/lib/smtp.jar"/>
 	<classpathentry kind="lib" path="src/lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="src/lib/slf4j-simple-1.7.25.jar"/>
+	<classpathentry kind="lib" path="src/lib/jackson-annotations-2.5.4.jar"/>
+	<classpathentry kind="lib" path="src/lib/jackson-core-2.5.4.jar"/>
+	<classpathentry kind="lib" path="src/lib/jackson-databind-2.5.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

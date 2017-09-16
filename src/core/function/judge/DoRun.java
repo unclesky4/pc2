@@ -19,12 +19,15 @@ public class DoRun extends RunListenerUtils{
 	 * @param isFinal
 	 */
 	public DoRun(IRun run, boolean isFinal) {
-		runListener.runSubmitted(run);
-		runListener.runCheckedOut(run, isFinal);
-		runListener.runCompiling(run, isFinal);
-		runListener.runExecuting(run, isFinal);
-		runListener.runValidating(run, isFinal);
-		runListener.runJudged(run, isFinal);
+		try {
+			runListener.runSubmitted(run);
+			runListener.runCheckedOut(run, isFinal);
+			runListener.runCompiling(run, isFinal);
+			runListener.runExecuting(run, isFinal);
+			runListener.runValidating(run, isFinal);
+			runListener.runJudged(run, isFinal);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
 }

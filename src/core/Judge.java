@@ -5,6 +5,7 @@ import edu.csus.ecs.pc2.api.ContestTestFrame;
 import edu.csus.ecs.pc2.api.IClarification;
 import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.IRun;
+import edu.csus.ecs.pc2.api.RunStates;
 import edu.csus.ecs.pc2.api.ServerConnection;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
@@ -30,6 +31,7 @@ public class Judge extends ContestTestFrame{
 			
 			//获取run
 			IRun testRun = null;
+			System.out.println("获取所有的Run");
 			for (IRun run : iContest.getRuns()) {
 			    System.out.println("Run " + run.getNumber() + " from site " + run.getSiteNumber());
 			    System.out.println("    submitted at " + run.getSubmissionTime() + " minutes by " + run.getTeam().getDisplayName());
@@ -37,12 +39,15 @@ public class Judge extends ContestTestFrame{
 			    System.out.println("    Written in " + run.getLanguage().getName());
 			 
 			    testRun = run;
+			    System.out.println(iContest.getRunState(testRun));
 			    
-			    if (run.isFinalJudged()) {
-			        System.out.println("    Judgement: " + run.getJudgementName());
+			    if (testRun.isFinalJudged()) {
+			        System.out.println("    Judgement: " + testRun.getJudgementName());
+			        System.out.println();
 			    } else {
 			        System.out.println("    Judgement: not judged yet ");
 			    }
+			    System.out.println("-------------------");
 			    
 			}
 			
