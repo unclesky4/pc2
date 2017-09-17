@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.Set;
 
+import com.sun.corba.se.impl.orbutil.RepositoryIdUtility;
+
 import edu.csus.ecs.pc2.api.IClient;
 import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.ILanguage;
@@ -83,6 +85,13 @@ public class ServerConnection {
 		return false;
 	}
 
+	/**
+	 * 添加帐号 - ADMINISTRATOR角色权限
+	 * @param accountTypeName - 帐号类型（team， judge， administrator）
+	 * @param displayName - 帐号名
+	 * @param password - 密码
+	 * @throws Exception
+	 */
 	public void addAccount(String accountTypeName, String displayName, String password) throws Exception {
 		accountTypeName = accountTypeName.toUpperCase();
 		if (!isValidAccountTypeName(accountTypeName)) {
@@ -518,6 +527,14 @@ public class ServerConnection {
 		ContestTime newContestTime = this.internalContest.getContestTime();
 		long newRemain = contestLengthSeconds - newContestTime.getElapsedSecs();
 		setContestTimes(contestLengthSeconds, newContestTime.getElapsedSecs(), newRemain);
+	}
+	
+	public IInternalController getIInternalController() {
+		return this.controller;
+	}
+	
+	public IInternalContest getIInternalContest() {
+		return this.internalContest;
 	}
 
 	public static void main(String[] args) {

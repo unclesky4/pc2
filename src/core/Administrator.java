@@ -4,9 +4,14 @@ import java.util.Properties;
 
 import core.function.common.ServerConnection;
 import edu.csus.ecs.pc2.api.APIConstants;
+import edu.csus.ecs.pc2.api.IRun;
+import edu.csus.ecs.pc2.api.IClient.ClientType;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.api.implementation.Contest;
+import edu.csus.ecs.pc2.core.model.Account;
+import edu.csus.ecs.pc2.core.model.ClientType.Type;
+import sun.net.www.protocol.http.HttpURLConnection.TunnelState;
 /**
  * ADMINISTRATOR角色的功能
  * @author unclesky4 02/09/2017
@@ -21,7 +26,20 @@ public class Administrator {
 			//登陆 -- admin
 			contest = (Contest) serverConnection.login("administrator1", "administrator1");
 			//添加帐号
-	//		serverConnection.addAccount("JUDGE", "judge1", "judge1");
+		//	serverConnection.addAccount("judge", "judge2", "judge2");
+			
+			
+			//serverConnection.getIInternalContest().getAccounts(Type.ALL);
+			for(Account accounts : serverConnection.getIInternalContest().getAccounts()) {
+				System.out.println(accounts.getDisplayName());
+			}
+			
+			System.out.println("---------------------------");
+			for(IRun runs : contest.getRuns()) {
+				System.out.println(runs.getSubmissionTime());
+				System.out.println(runs.getJudge().getLoginName());
+				System.out.println(runs.getLanguage().getTitle());
+			}
 
 			//添加编程语言
 			/*serverConnection.addLanguage("Java", "javac {:mainfile}", "java {:basename}", true, "{:basename}.class");
@@ -50,7 +68,7 @@ public class Administrator {
 			problemProperties.setProperty("JUDGING_TYPE", "COMPUTER_AND_MANUAL_JUDGING");
 			problemProperties.setProperty("VALIDATOR_PROGRAM", "pc2.jar edu.csus.ecs.pc2.validator.Validator");
 			problemProperties.setProperty("VALIDATOR_COMMAND_LINE", "DEFAULT_INTERNATIONAL_VALIDATOR_COMMAND"); 
-			serverConnection.addProblem("输入两个整数，求他们的和_7", "两数求和_7", dataFile, answerFile, true, problemProperties, 70);
+	//		serverConnection.addProblem("输入两个整数，求他们的和_7", "两数求和_7", dataFile, answerFile, true, problemProperties, 70);
 			
 			//设置考试时间
 			//serverConnection.setContestTimes((long)1200, (long)0, (long)1200);

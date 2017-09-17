@@ -3,6 +3,12 @@ import java.io.File;
 import java.nio.channels.FileLock;
 import java.util.Date;
 
+import org.junit.experimental.theories.Theories;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import core.function.common.ServerConnection;
 import edu.csus.ecs.pc2.api.ClarificationListenerUtils;
 import edu.csus.ecs.pc2.api.IContest;
@@ -13,8 +19,11 @@ import edu.csus.ecs.pc2.api.IProblemDetails;
 import edu.csus.ecs.pc2.api.IStanding;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
+import edu.csus.ecs.pc2.core.exception.IllegalContestState;
 import edu.csus.ecs.pc2.core.model.Language;
 import edu.csus.ecs.pc2.core.model.Problem;
+import edu.csus.ecs.pc2.exports.ccs.ProblemsJSON;
+import sun.rmi.runtime.Log;
 
 /**
  * TEAM角色的功能
@@ -48,6 +57,14 @@ public class Team extends ClarificationListenerUtils{
 			System.out.println("----------------");
 		}
 		
+		/*ProblemsJSON problemsJSON = new ProblemsJSON();
+		try {
+			System.out.println("打印所有的问题");
+			System.out.println(problemsJSON.createJSON(serverConnection.getIInternalContest()));
+		} catch (IllegalContestState e1) {
+			e1.printStackTrace();
+		}*/
+		
 		//获取ILanguage
 		ILanguage language = null;
 		ILanguage[] languages = iContest.getLanguages();
@@ -58,6 +75,9 @@ public class Team extends ClarificationListenerUtils{
 			}
 		}
 		
+		Logger logger = LoggerFactory.getLogger(Team.class);
+		logger.info("language info : "+language.getTitle()+"   "+language.getName());
+		
 		//提交答案--run  (前提：开启考试 startContestClock)
 		/*public void submitRun(IProblem problem,
 					         ILanguage language,
@@ -67,15 +87,15 @@ public class Team extends ClarificationListenerUtils{
 					         long overrideRunId)
 					           throws Exception
        */
-		String mainFileName = "/home/uncle/Desktop/pc2_data/solve.class";
+		/*String mainFileName = "/home/uncle/Desktop/pc2_data/solve.java";
 		String[] additionalFileNames = new String[0];
 		try {
 			System.out.println("开始提交Run");
-			serverConnection.submitRun(problem, language, mainFileName, additionalFileNames, (Long)new Date().getTime(), (Long)new Date().getTime());
+			serverConnection.submitRun(problem, language, mainFileName, additionalFileNames, 0L, 0L);
 			System.out.println("已提交Run");
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}
+		}*/
 		
 		//team提交Clarification --> clarificationAdded（） --> getClarifications() -->  	clarificationAnswered -->  	clarificationUpdated
 		

@@ -4,8 +4,9 @@ import edu.csus.ecs.pc2.api.ClarificationListenerUtils;
 import edu.csus.ecs.pc2.api.ContestTestFrame;
 import edu.csus.ecs.pc2.api.IClarification;
 import edu.csus.ecs.pc2.api.IContest;
+import edu.csus.ecs.pc2.api.IJudgement;
 import edu.csus.ecs.pc2.api.IRun;
-import edu.csus.ecs.pc2.api.RunStates;
+import edu.csus.ecs.pc2.api.IRunJudgement;
 import edu.csus.ecs.pc2.api.ServerConnection;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
@@ -37,6 +38,19 @@ public class Judge extends ContestTestFrame{
 			    System.out.println("    submitted at " + run.getSubmissionTime() + " minutes by " + run.getTeam().getDisplayName());
 			    System.out.println("    For problem " + run.getProblem().getName());
 			    System.out.println("    Written in " + run.getLanguage().getName());
+			    
+			    //judgement的状态
+			    /*Yes
+			    No - Compilation Error
+			    No - Run-time Error
+			    No - Time Limit Exceeded
+			    No - Wrong Answer
+			    No - Excessive Output
+			    No - Output Format Error
+			    No - Other - Contact Staff*/
+			    for(IJudgement judgement : iContest.getJudgements()){
+			    	System.out.println(judgement.getName());
+			    }
 			 
 			    testRun = run;
 			    System.out.println(iContest.getRunState(testRun));
