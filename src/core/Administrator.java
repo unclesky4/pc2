@@ -1,5 +1,6 @@
 package core;
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 import core.function.common.ServerConnection;
@@ -9,8 +10,14 @@ import edu.csus.ecs.pc2.api.IClient.ClientType;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.api.implementation.Contest;
+import edu.csus.ecs.pc2.api.implementation.RunImplementation;
 import edu.csus.ecs.pc2.core.model.Account;
+import edu.csus.ecs.pc2.core.model.Run;
+import edu.csus.ecs.pc2.core.model.RunResultFiles;
+import edu.csus.ecs.pc2.core.model.RunTestCase;
 import edu.csus.ecs.pc2.core.model.ClientType.Type;
+import edu.csus.ecs.pc2.core.model.Judgement;
+import edu.csus.ecs.pc2.core.security.FileSecurityException;
 import sun.net.www.protocol.http.HttpURLConnection.TunnelState;
 /**
  * ADMINISTRATOR角色的功能
@@ -22,6 +29,7 @@ public class Administrator {
 	public static void main(String[] args) {
 		ServerConnection serverConnection = new ServerConnection();
 		Contest contest = null;
+		
 		try {
 			//登陆 -- admin
 			contest = (Contest) serverConnection.login("administrator1", "administrator1");
@@ -39,7 +47,10 @@ public class Administrator {
 				System.out.println(runs.getSubmissionTime());
 				System.out.println(runs.getJudge().getLoginName());
 				System.out.println(runs.getLanguage().getTitle());
+				System.out.println(runs.getRunJudgements()[0].getJudgement().getName());
+				System.out.println(runs.getRunJudgements()[0].getJudgement());
 			}
+			System.out.println("------------------------");
 
 			//添加编程语言
 			/*serverConnection.addLanguage("Java", "javac {:mainfile}", "java {:basename}", true, "{:basename}.class");
@@ -56,10 +67,10 @@ public class Administrator {
 			serverConnection.addLanguage("Microsoft C++");
 			serverConnection.addLanguage("Python");*/
 			
-			System.out.println("------------");
+/*			System.out.println("------------");
 			System.out.println(serverConnection.isValidAutoFillLangauageName("GNU C++ (Unix / Windows)"));
 			System.out.println(serverConnection.isValidAutoFillLangauageName("GNU C (Unix / Windows)"));
-			System.out.println("是否为ADMINISTRATOR角色："+serverConnection.isValidAccountTypeName("ADMINISTRATOR"));
+			System.out.println("是否为ADMINISTRATOR角色："+serverConnection.isValidAccountTypeName("ADMINISTRATOR"));*/
 			
 			//添加题目
 			Properties problemProperties = new Properties();
@@ -77,14 +88,14 @@ public class Administrator {
 			//serverConnection.startContestClock();
 			
 			//判断是否开始考试
-			System.out.println("---判断是否开始考试---------");
+/*			System.out.println("---判断是否开始考试---------");
 			System.out.println(contest.getContestClock().isContestClockRunning());
 			System.out.println(contest.isCCSTestMode());
 			
 			System.out.println("--------获取ContestClock信息--------");
 			System.out.println(contest.getContestClock().getContestLengthSecs());
 			System.out.println(contest.getContestClock().getElapsedSecs());
-			System.out.println(contest.getContestClock().getRemainingSecs());
+			System.out.println(contest.getContestClock().getRemainingSecs());*/
 			
 			//停止考试
 			//serverConnection.stopContestClock();
@@ -108,6 +119,52 @@ public class Administrator {
 			 }else{
 				 System.out.println("not file");
 			 }*/
+			
+			//获取Run --> RunResultFiles
+			Run[] runs = serverConnection.getIInternalContest().getRuns();
+			System.out.println(runs.length);
+			System.out.println("runs[0].isJudged():"+runs[0].isJudged());
+			System.out.println("runs[0].isJudged():"+runs[0].isSolved());
+			System.out.println("runs[0].getSystemOS():"+runs[0].getSystemOS());
+			System.out.println("runs[0].getOriginalElapsedMS():"+runs[0].getOriginalElapsedMS());
+			System.out.println("runs[0].getOverRideElapsedTimeMS():"+runs[0].getOverRideElapsedTimeMS());
+			
+			
+			try {
+				RunResultFiles[] runResultFiles = serverConnection.getIInternalContest().getRunResultFiles(runs[0]);
+				if(runResultFiles.length > 0) {
+					for(RunResultFiles runResultFiles2 : runResultFiles) {
+					}
+				}else{
+					System.out.println("runResultFiles is null");
+				}
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (FileSecurityException e1) {
+				e1.printStackTrace();
+			}
+			
+			System.out.println("runs[0].getJudgementRecord().getExecuteMS():"+runs[0].getJudgementRecord().getExecuteMS());
+			System.out.println("runs[0].getJudgementRecord().getHowLongToJudgeInSeconds():"+runs[0].getJudgementRecord().getHowLongToJudgeInSeconds());
+			System.out.println("runs[0].getJudgementRecord().getHowLongToJudgeInSeconds():"+runs[0].getJudgementRecord().getJudgedSeconds());
+			System.out.println("runs[0].getJudgementRecord().isSendToTeam():"+runs[0].getJudgementRecord().isSendToTeam());
+			System.out.println("-------------------------------------");
+			
+			//获取judgement
+			for(Judgement judgement : serverConnection.getIInternalContest().getJudgements()) {
+				System.out.println(judgement.getSiteNumber());
+				System.out.println(judgement.getAcronym());
+			}
+			
+			//Run --> RunTestCases
+			System.out.println("---------------------------------");
+			for(RunTestCase runTestCase : runs[0].getRunTestCases()) {
+				System.out.println("runTestCase.getElapsedMS():"+runTestCase.getElapsedMS());
+				System.out.println("runTestCase.getDate():"+runTestCase.getDate());
+			}
+			System.out.println("--------------------------------");
 			
 			
 

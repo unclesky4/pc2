@@ -148,11 +148,11 @@ public class ServerConnection {
 	 * @param language - 编程语言
 	 * @param mainFileName - 主程序文件路径(String)
 	 * @param additionalFileNames - 附加的文件路径(String)
-	 * @param overrideSubmissionTimeMS - 提交时间
-	 * @param overrideRunId - Run的主键
+	 * @param overrideSubmissionTimeMS
+	 * @param overrideRunId
 	 * @throws Exception
 	 */
-	public void submitRun(IProblem problem, ILanguage language, String mainFileName, String[] additionalFileNames,
+/*	public void submitRun(IProblem problem, ILanguage language, String mainFileName, String[] additionalFileNames,
 			long overrideSubmissionTimeMS, long overrideRunId) throws Exception {
 		checkWhetherLoggedIn();
 
@@ -185,7 +185,50 @@ public class ServerConnection {
 		try {
 			this.controller.submitRun(submittedProblem, submittedLanguage, mainFileName, list, overrideSubmissionTimeMS,
 					overrideRunId);
-			System.out.println("success submitRun!!");  //test
+		} catch (Exception e) {
+			throw new Exception("Unable to submit run " + e.getLocalizedMessage());
+		}
+	}*/
+	
+	/**
+	 * TEAM角色提交一个Run (Contest的时钟必须是开始状态)
+	 * @param problem - 问题
+	 * @param language - 编程语言
+	 * @param mainFileName - 主程序文件路径(String)
+	 * @param additionalFileNames - 附加的文件路径(String)
+	 * @throws Exception
+	 */
+	public void submitRun(IProblem problem, ILanguage language, String mainFileName, String[] additionalFileNames) throws Exception {
+		checkWhetherLoggedIn();
+
+		checkIsAllowed(Permission.Type.SUBMIT_RUN, "User not allowed to submit run");
+		if (!new File(mainFileName).isFile()) {
+			throw new Exception("File '" + mainFileName + "' no such file (not found)");
+		}
+		SerializedFile[] list = new SerializedFile[additionalFileNames.length];
+		for (int i = 0; i < additionalFileNames.length; i++) {
+			if (new File(additionalFileNames[i]).isFile()) {
+				list[i] = new SerializedFile(additionalFileNames[i]);
+			} else {
+				throw new Exception("File '" + additionalFileNames[i] + "' no such file (not found)");
+			}
+		}
+		ProblemImplementation problemImplementation = (ProblemImplementation) problem;
+		Problem submittedProblem = this.internalContest.getProblem(problemImplementation.getElementId());
+
+		LanguageImplementation languageImplementation = (LanguageImplementation) language;
+		Language submittedLanguage = this.internalContest.getLanguage(languageImplementation.getElementId());
+		if (submittedProblem == null) {
+			throw new Exception("Could not find any problem matching: '" + problem.getName());
+		}
+		if (submittedLanguage == null) {
+			throw new Exception("Could not find any language matching: '" + language.getName());
+		}
+		if (!this.contest.isContestClockRunning()) {
+			throw new Exception("Contest is STOPPED - no runs accepted.");
+		}
+		try {
+			this.controller.submitRun(submittedProblem, submittedLanguage, mainFileName, list);
 		} catch (Exception e) {
 			throw new Exception("Unable to submit run " + e.getLocalizedMessage());
 		}
