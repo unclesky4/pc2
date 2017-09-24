@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.Set;
 
-import com.sun.corba.se.impl.orbutil.RepositoryIdUtility;
-
 import edu.csus.ecs.pc2.api.IClient;
 import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.ILanguage;
@@ -33,6 +31,8 @@ import edu.csus.ecs.pc2.core.model.Language;
 import edu.csus.ecs.pc2.core.model.LanguageAutoFill;
 import edu.csus.ecs.pc2.core.model.Problem;
 import edu.csus.ecs.pc2.core.model.ProblemDataFiles;
+import edu.csus.ecs.pc2.core.model.Run;
+import edu.csus.ecs.pc2.core.model.RunFiles;
 import edu.csus.ecs.pc2.core.model.SerializedFile;
 import edu.csus.ecs.pc2.core.security.Permission;
 
@@ -227,6 +227,7 @@ public class ServerConnection {
 		if (!this.contest.isContestClockRunning()) {
 			throw new Exception("Contest is STOPPED - no runs accepted.");
 		}
+		
 		try {
 			this.controller.submitRun(submittedProblem, submittedLanguage, mainFileName, list);
 		} catch (Exception e) {

@@ -97,7 +97,6 @@ public class Team extends ClarificationListenerUtils{
 		SerializedFile[] otherFiles = new SerializedFile[0];
 		try {
 			System.out.println("开始提交Run");
-		//	serverConnection.submitRun(problem, language, mainFileName, additionalFileNames, 0L, 0L);
 		//	serverConnection.getIInternalController().submitRun(submittedProblem, submittedLanguage, mainFileName, otherFiles);
 			System.out.println("已提交Run");
 		} catch (Exception e1) {
@@ -128,6 +127,9 @@ public class Team extends ClarificationListenerUtils{
 		IProblemDetails[] iProblemDetails = iStanding[0].getProblemDetails();
 		System.out.println(iProblemDetails[0].getAttempts());
 		System.out.println(iProblemDetails[0].isSolved());*/
+		
+		Problem[] problems = serverConnection.getIInternalContest().getProblems();
+		System.out.println(problems[0].getAnswerFileName());
 		
 		//断开连接
 		try {
