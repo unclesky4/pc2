@@ -31,8 +31,6 @@ import edu.csus.ecs.pc2.core.model.Language;
 import edu.csus.ecs.pc2.core.model.LanguageAutoFill;
 import edu.csus.ecs.pc2.core.model.Problem;
 import edu.csus.ecs.pc2.core.model.ProblemDataFiles;
-import edu.csus.ecs.pc2.core.model.Run;
-import edu.csus.ecs.pc2.core.model.RunFiles;
 import edu.csus.ecs.pc2.core.model.SerializedFile;
 import edu.csus.ecs.pc2.core.security.Permission;
 
@@ -406,7 +404,7 @@ public class ServerConnection {
 		if (properties == null) {
 			return new String[0];
 		}
-		ArrayList<String> unknownKeys = new ArrayList();
+		ArrayList<String> unknownKeys = new ArrayList<String>();
 
 		String[] names = getProblemPropertyNames();
 

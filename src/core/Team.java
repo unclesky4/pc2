@@ -1,35 +1,25 @@
 package core;
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.function.common.ServerConnection;
-import edu.csus.ecs.pc2.api.ClarificationListenerUtils;
 import edu.csus.ecs.pc2.api.IContest;
-import edu.csus.ecs.pc2.api.IJudgement;
 import edu.csus.ecs.pc2.api.ILanguage;
 import edu.csus.ecs.pc2.api.IProblem;
-import edu.csus.ecs.pc2.api.IRun;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
-import edu.csus.ecs.pc2.api.implementation.JudgementImplementation;
 import edu.csus.ecs.pc2.api.implementation.LanguageImplementation;
 import edu.csus.ecs.pc2.api.implementation.ProblemImplementation;
-import edu.csus.ecs.pc2.core.model.Judgement;
 import edu.csus.ecs.pc2.core.model.Language;
 import edu.csus.ecs.pc2.core.model.Problem;
-import edu.csus.ecs.pc2.core.model.Run;
-import edu.csus.ecs.pc2.core.model.RunResultFiles;
 import edu.csus.ecs.pc2.core.model.SerializedFile;
-import edu.csus.ecs.pc2.core.security.FileSecurityException;
 
 /**
  * TEAM角色的功能
  * @author uncle 02/09/2017
  *
  */
-public class Team extends ClarificationListenerUtils{
+public class Team{
 
 	public static void main(String[] args) {
 		//连接服务器

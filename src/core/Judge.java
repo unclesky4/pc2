@@ -1,12 +1,10 @@
 package core;
 
-import edu.csus.ecs.pc2.api.ClarificationListenerUtils;
 import edu.csus.ecs.pc2.api.ContestTestFrame;
 import edu.csus.ecs.pc2.api.IClarification;
 import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.IJudgement;
 import edu.csus.ecs.pc2.api.IRun;
-import edu.csus.ecs.pc2.api.IRunJudgement;
 import edu.csus.ecs.pc2.api.ServerConnection;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
@@ -77,29 +75,6 @@ public class Judge extends ContestTestFrame{
 			}
 			System.out.println("--------------");
 			
-			ClarificationListenerUtils clarificationListenerUtils = new ClarificationListenerUtils();
-			ClarificationListener clarificationListener = clarificationListenerUtils.getClarificationListener();
-			//iContest.getClarifications()  从IContest中获取用户提交的IClarification，judge角色回复后如何返回信息给team？？？？
-			System.out.println("Clarification的属性：");
-			for(IClarification clarification : iContest.getClarifications()) {
-				System.out.println(clarification.getSubmissionTime());
-				System.out.println(clarification.getTeam());
-				System.out.println(clarification.getNumber()); //应该是主键
-				System.out.println();
-				clarificationListener.clarificationAdded(clarification);
-				//判断是否已回答
-				if(!clarification.isAnswered()) {
-					//如何设置clarification的answer？？？？
-					
-					//打印team提交的疑问
-					System.out.println(clarification.getQuestion());
-					clarificationListener.clarificationAnswered(clarification);
-					clarificationListener.clarificationUpdated(clarification);
-				}else {
-					System.out.println(clarification.getAnswer());
-				}
-			}
-			System.out.println("----------------");
 			
 			System.out.println("打印ConnectionEvent.Action");
 			for (ConnectionEvent.Action c : ConnectionEvent.Action.values())

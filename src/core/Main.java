@@ -1,6 +1,5 @@
 package core;
 import edu.csus.ecs.pc2.api.IClient.ClientType;
-import edu.csus.ecs.pc2.api.RunListenerUtils;
 import edu.csus.ecs.pc2.api.RunStates;
 import edu.csus.ecs.pc2.api.listener.ConnectionEvent;
 import edu.csus.ecs.pc2.api.listener.ContestEvent;
@@ -12,12 +11,6 @@ import edu.csus.ecs.pc2.api.listener.ContestEvent;
  *
  */
 public class Main {
-	
-	class A extends RunListenerUtils{
-		public void showUsage() {
-			usage();
-		}
-	}
 	
 	public static void main(String[] args) {
 		System.out.println("打印ConnectionEvent.Action");
@@ -52,8 +45,6 @@ public class Main {
 		}
 		
 		Main main = new Main();
-		A a = main.new A();
-		a.showUsage();
 	}
 
 }
