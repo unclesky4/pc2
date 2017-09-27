@@ -3,6 +3,9 @@ package core;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.experimental.theories.Theories;
 
 import core.function.common.ServerConnection;
 import edu.csus.ecs.pc2.api.IJudgement;
@@ -12,14 +15,15 @@ import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.api.implementation.Contest;
 import edu.csus.ecs.pc2.api.implementation.JudgementImplementation;
 import edu.csus.ecs.pc2.core.model.Judgement;
+import edu.csus.ecs.pc2.core.security.Permission;
 /**
  * 测试添加编程语言，添加帐号，添加题目，设置Contest时间及开始与结束的状态
  * @author uncle
  *
  */
-public class Administrator2 {
+public class Administrator2{
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		ServerConnection serverConnection = new ServerConnection();
 		Contest contest = null;
 
@@ -71,7 +75,10 @@ public class Administrator2 {
 		System.out.println("是否为ADMINISTRATOR角色："+serverConnection.isValidAccountTypeName("ADMINISTRATOR"));*/
 		
 		//添加题目
-/*		Properties problemProperties = new Properties();
+		System.out.println(serverConnection.getIInternalContest().isAllowed(Permission.Type.ADD_PROBLEM));
+		System.out.println(serverConnection.isValidAccountTypeName("ADMINISTRATOR"));
+		
+		Properties problemProperties = new Properties();
 		File dataFile = null;
 		File answerFile = null;
 		try {
@@ -83,7 +90,14 @@ public class Administrator2 {
 		problemProperties.setProperty("JUDGING_TYPE", "COMPUTER_AND_MANUAL_JUDGING");
 		problemProperties.setProperty("VALIDATOR_PROGRAM", "pc2.jar edu.csus.ecs.pc2.validator.Validator");
 		problemProperties.setProperty("VALIDATOR_COMMAND_LINE", "DEFAULT_INTERNATIONAL_VALIDATOR_COMMAND"); 
-		serverConnection.addProblem("输入两个整数，求他们的和_7", "两数求和_7", dataFile, answerFile, true, problemProperties, 70);*/
+		
+		serverConnection.addProblem("输入两个整数，求他们的和_14", "两数求和_14", dataFile, answerFile, false, problemProperties, 70);
+		
+		//当前线程暂停2秒，确保Problem提交到服务器前serverConnection不关闭
+		TimeUnit.SECONDS.sleep(2);
+		
+		//查看Problem的个数
+		System.out.println("查看Problem的个数:"+serverConnection.getIInternalContest().getProblems().length);
 		
 		//设置考试时间
 		//serverConnection.setContestTimes((long)1200, (long)0, (long)1200);
@@ -132,31 +146,6 @@ public class Administrator2 {
 		System.out.println("VALIDATOR_PROGRAM: "+APIConstants.VALIDATOR_PROGRAM);
 		System.out.println("COMPUTER_AND_MANUAL_JUDGING: "+APIConstants.COMPUTER_AND_MANUAL_JUDGING);
 		System.out.println("PC2_VALIDATOR_PROGRAM: "+APIConstants.DEFAULT_INTERNATIONAL_VALIDATOR_COMMAND);*/
-				
-		System.out.println("--------------------------------");
-		//获取Judgement的状态信息
-		for(Judgement judgement : serverConnection.getIInternalContest().getJudgements()) {
-			//System.out.println(judgement.getSiteNumber());
-			System.out.println(judgement.getAcronym());
-		//	System.out.println(new JudgementImplementation(judgement).getName());
-		}
-		
-		System.out.println("--------------------------------");
-		
-		//获取JudgementImplementation信息
-		IJudgement[] iJudgement = contest.getJudgements();
-		System.out.println("iJudgement.length:"+iJudgement.length);
-		for(IJudgement iJudgement2 : iJudgement) {
-			JudgementImplementation judgementImplementation = (JudgementImplementation) iJudgement2;
-			System.out.println(judgementImplementation.getName());
-		}
-		
-		System.out.println("--------------------------------");
-		
-		IRun[] iRuns = contest.getRuns();
-		for(IRun iRun : iRuns) {
-			System.out.println(iRun.getJudgementName());
-		}
 				
 				
 		try {

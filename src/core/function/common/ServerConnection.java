@@ -338,25 +338,27 @@ public class ServerConnection {
 			throw new IllegalArgumentException("Unknown/Invalid property names: " + Arrays.toString(invalids));
 		}
 		String judgingType = getProperty(problemProperties, "JUDGING_TYPE", null);
+		if (judgingType != null)
+	    {
+	      if (("MANUAL_JUDGING_ONLY".equals(judgingType)) && (validated)) {
+	        throw new IllegalArgumentException("Problem cannot be validated and not judging type computer judged");
+	      }
+	    }
+	    else {
+	      judgingType = "MANUAL_JUDGING_ONLY";
+	    }
 		//------重写代码----------------strat
 		if (judgingType != null) {
 			if (judgingType.equals("COMPUTER_JUDGING_ONLY")) {
-				problem.setValidatedProblem(true);
 				problem.setComputerJudged(true);
 				problem.setManualReview(false);
 			} else if(judgingType.equals("MANUAL_JUDGING_ONLY")){
-				problem.setValidatedProblem(false);
 				problem.setComputerJudged(false);
 				problem.setManualReview(true);
 			}else {
-				problem.setValidatedProblem(true);
 				problem.setComputerJudged(true);
 				problem.setManualReview(true);
 			}
-		} else {
-			problem.setValidatedProblem(false);
-			problem.setComputerJudged(false);
-			problem.setManualReview(true);
 		}
 		//------------------------end
 

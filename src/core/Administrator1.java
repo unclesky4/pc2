@@ -32,7 +32,7 @@ public class Administrator1 {
 		System.out.println(runs.length);
 		Problem problem = serverConnection.getIInternalContest().getProblem(runs[0].getProblemId());
 		System.out.println("获取提交Run的Team名称:"+runs[0].getSubmitter().getName());
-		
+
 		System.out.println("runs[0].isJudged():"+runs[0].getSubmitter());
 		System.out.println("runs[0].isJudged():"+runs[0].isJudged());
 		System.out.println("runs[0].isSolved():"+runs[0].isSolved());

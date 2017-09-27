@@ -42,10 +42,16 @@ public class ExecuteRunTest {
 		String info = executeRun.readFile(file);
 		
 		System.out.println(info);
+		
+		try {
+			serverConnection.logoff();
+		} catch (NotLoggedInException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
-	 * 自定义Run也可以编译运行得到结果
+	 * 自定义Run ---- 可以编译运行得到结果
 	 */
 	@Test
 	public void testGetOutputFile_1(){
@@ -84,7 +90,16 @@ public class ExecuteRunTest {
 		String info = executeRun.readFile(file);
 		
 		System.out.println(info);
-		System.out.println(executeRun.getRanExecute().getExecutionData().getExecuteTimeMS());
+		System.out.println("验证"+executeRun.getRanExecute().getExecutionData().getvalidateTimeMS()+"毫秒");
+		System.out.println("编译"+executeRun.getRanExecute().getExecutionData().getCompileTimeMS()+"毫秒");
+		System.out.println("执行"+executeRun.getRanExecute().getExecutionData().getExecuteTimeMS()+"毫秒");
+		System.out.println(executeRun.getRanExecute().getProblem().getTimeOutInSeconds()+"秒");
+		
+		try {
+			serverConnection.logoff();
+		} catch (NotLoggedInException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
