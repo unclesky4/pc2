@@ -9,6 +9,8 @@ import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.core.execute.ExecuteRun;
+import edu.csus.ecs.pc2.core.model.Language;
+import edu.csus.ecs.pc2.core.model.Problem;
 import edu.csus.ecs.pc2.core.model.Run;
 
 public class ExecuteRunTest {
@@ -40,6 +42,49 @@ public class ExecuteRunTest {
 		String info = executeRun.readFile(file);
 		
 		System.out.println(info);
+	}
+	
+	/**
+	 * 自定义Run也可以编译运行得到结果
+	 */
+	@Test
+	public void testGetOutputFile_1(){
+		//连接服务器
+		ServerConnection serverConnection = new ServerConnection();
+		IContest iContest = null;
+		
+		//登陆--judge1
+		try {
+			iContest = serverConnection.login("judge1", "judge1");
+			iContest = serverConnection.getContest();
+		} catch (LoginFailureException e) {
+			e.printStackTrace();
+		} catch (NotLoggedInException e) {
+			e.printStackTrace();
+		}
+		
+		Language language = null;
+		Language[] languages = serverConnection.getIInternalContest().getLanguages();
+		for(Language language2 : languages) {
+			if(language2.getDisplayName().equals("Java")) {
+				System.out.println(language2.getDisplayName());
+				language = language2;
+			}
+		}
+		
+		Problem[] problems = serverConnection.getIInternalContest().getProblems();
+		Run run = new Run(serverConnection.getIInternalContest().getClientId(), language, problems[0]);
+		
+		String mainProgramFile = "/home/uncle/Desktop/pc2_data/solve.java";
+
+		ExecuteRun executeRun = new ExecuteRun(serverConnection, run, mainProgramFile);
+		
+		File file = executeRun.getOutputFile();
+		
+		String info = executeRun.readFile(file);
+		
+		System.out.println(info);
+		System.out.println(executeRun.getRanExecute().getExecutionData().getExecuteTimeMS());
 	}
 
 }
