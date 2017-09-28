@@ -15,6 +15,9 @@ import edu.csus.ecs.pc2.core.model.Run;
 
 public class ExecuteRunTest {
 
+	/**
+	 * 测试TEAM提交的Run
+	 */
 	@Test
 	public void testGetOutputFile() {
 		
