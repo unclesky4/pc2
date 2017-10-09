@@ -13,7 +13,7 @@
 # Package Files #
 *.war
 *.ear
-*.zip
+#*.zip
 *.tar.gz
 *.rar
 
