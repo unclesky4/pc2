@@ -82,7 +82,8 @@ public class ExecuteRunTest {
 		}
 		
 		Problem[] problems = serverConnection.getIInternalContest().getProblems();
-		Run run = new Run(serverConnection.getIInternalContest().getClientId(), language, problems[0]);
+		
+		Run run = new Run(serverConnection.getIInternalContest().getClientId(), language, problems[1]);
 		
 		String mainProgramFile = "/home/uncle/Desktop/pc2_data/solve.java";
 
@@ -92,6 +93,8 @@ public class ExecuteRunTest {
 		
 		String info = executeRun.readFile(file);
 		
+		System.out.println(executeRun.getRanExecute().getExecutionData().isCompileSuccess());
+		System.out.println(executeRun.getRanExecute().getExecutionData().isExecuteSucess());
 		System.out.println(info);
 		System.out.println("验证"+executeRun.getRanExecute().getExecutionData().getvalidateTimeMS()+"毫秒");
 		System.out.println("编译"+executeRun.getRanExecute().getExecutionData().getCompileTimeMS()+"毫秒");

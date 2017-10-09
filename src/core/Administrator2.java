@@ -5,16 +5,11 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.experimental.theories.Theories;
-
 import core.function.common.ServerConnection;
-import edu.csus.ecs.pc2.api.IJudgement;
-import edu.csus.ecs.pc2.api.IRun;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.api.implementation.Contest;
-import edu.csus.ecs.pc2.api.implementation.JudgementImplementation;
-import edu.csus.ecs.pc2.core.model.Judgement;
+import edu.csus.ecs.pc2.core.model.Account;
 import edu.csus.ecs.pc2.core.security.Permission;
 /**
  * 测试添加编程语言，添加帐号，添加题目，设置Contest时间及开始与结束的状态
@@ -31,6 +26,10 @@ public class Administrator2{
 			contest = (Contest) serverConnection.login("administrator1", "administrator1");
 		} catch (LoginFailureException e1) {
 			e1.printStackTrace();
+		}
+		
+		for(Account account : serverConnection.getIInternalContest().getAccounts()) {
+			System.out.println(account.getTeamName());
 		}
 		
 		
@@ -91,7 +90,7 @@ public class Administrator2{
 		problemProperties.setProperty("VALIDATOR_PROGRAM", "pc2.jar edu.csus.ecs.pc2.validator.Validator");
 		problemProperties.setProperty("VALIDATOR_COMMAND_LINE", "DEFAULT_INTERNATIONAL_VALIDATOR_COMMAND"); 
 		
-		serverConnection.addProblem("输入两个整数，求他们的和_14", "两数求和_14", dataFile, answerFile, false, problemProperties, 70);
+//		serverConnection.addProblem("输入两个整数，求他们的和_14", "两数求和_14", dataFile, answerFile, false, problemProperties, 70);
 		
 		//当前线程暂停2秒，确保Problem提交到服务器前serverConnection不关闭
 		TimeUnit.SECONDS.sleep(2);
