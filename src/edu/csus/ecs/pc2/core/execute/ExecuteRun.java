@@ -14,7 +14,7 @@ import edu.csus.ecs.pc2.core.model.RunFiles;
 import edu.csus.ecs.pc2.core.model.SerializedFile;
 
 /**
- * 直接继承PC^2的Executable类 -- 用于实际生产环境
+ * PC^2的Executable类 -- 用于实际生产环境
  * @author uncle
  *
  */
@@ -87,6 +87,11 @@ public class ExecuteRun{
 		SerializedFile mainFile =  new SerializedFile(mainProgramFile);
 		RunFiles runFiles = new RunFiles(run, mainFile, serializedFiles);
 		this.executable = new Executable(iInternalContest, iInternalController, run, runFiles);
+		
+		//为编译运行的目录添加后缀，确保每次运行不在同一目录下（因为程序输出文件名相同，不能更改）
+		//this.executable.setExecuteDirectoryNameSuffix(UUID.randomUUID().toString().replace("-", ""));
+		
+		//executable.setUsingGUI(false);
 		
 		this.executable.execute();
 	}

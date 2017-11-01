@@ -19,10 +19,9 @@ import edu.csus.ecs.pc2.core.model.Problem;
 import edu.csus.ecs.pc2.core.model.Run;
 import edu.csus.ecs.pc2.core.model.RunFiles;
 import edu.csus.ecs.pc2.core.model.SerializedFile;
-import jdk.internal.org.objectweb.asm.tree.analysis.Analyzer;
 
 /**
- * 测试修改程序输出文件----失败
+ * 测试修改程序输出文件路径----成功
  * @author unclesky4 04/10/2017
  *
  */
@@ -31,11 +30,6 @@ public class Execute_2 extends Executable {
 
 	public Execute_2(IInternalContest inContest, IInternalController inController, Run run, RunFiles runFiles) {
 		super(inContest, inController, run, runFiles);
-	}
-	
-	public String getExecuteDirectoryName()
-	{
-	    return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
 	public static String readFile(File file) {
@@ -100,6 +94,7 @@ public class Execute_2 extends Executable {
 		RunFiles runFiles = new RunFiles(run, mainFile, serializedFiles);
 		
 		Execute_2 execute_2 = new Execute_2(iInternalContest, iInternalController, run, runFiles);
+		execute_2.setExecuteDirectoryNameSuffix(UUID.randomUUID().toString().replaceAll("-", ""));
 		execute_2.execute(true);
 		
 		try {
