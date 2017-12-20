@@ -24,6 +24,12 @@ public class Administrator2{
 
 		try {
 			contest = (Contest) serverConnection.login("administrator1", "administrator1");
+			//addLanguage(String autoFillTitleName)  autoFillTitleName的列表
+			System.out.println("addLanguage(String autoFillTitleName)  autoFillTitleName的列表");
+			System.out.println(serverConnection.getAutoFillLanguageList().length);
+			for (String aString : serverConnection.getAutoFillLanguageList()) {
+				System.out.println(aString);
+			}
 		} catch (LoginFailureException e1) {
 			e1.printStackTrace();
 		}
