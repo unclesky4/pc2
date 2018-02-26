@@ -14,6 +14,7 @@ import edu.csus.ecs.pc2.api.IContest;
 import edu.csus.ecs.pc2.api.exceptions.LoginFailureException;
 import edu.csus.ecs.pc2.api.exceptions.NotLoggedInException;
 import edu.csus.ecs.pc2.core.execute.ExecuteRun;
+import edu.csus.ecs.pc2.core.execute.ExecutionData;
 import edu.csus.ecs.pc2.core.model.Language;
 import edu.csus.ecs.pc2.core.model.Problem;
 import edu.csus.ecs.pc2.core.model.ProblemDataFiles;
@@ -93,7 +94,7 @@ public class ExecuteRunTest {
 		//测试更新Problem的输入文件  --start
 		Problem problem = null;
 		for(int i=0; i<problems.length; i++) {
-			if(problems[i].getShortName().equals("A+B")){
+			if(problems[i].getShortName().equals("两数求和")){
 				problem = problems[i];
 				System.out.println("输入文件"+problem.getDataFileName());
 				ProblemDataFiles problemDataFiles = new ProblemDataFiles(problem);
@@ -112,10 +113,12 @@ public class ExecuteRunTest {
 
 		Run run = new Run(serverConnection.getIInternalContest().getClientId(), language, problem);
 		
+		//程序文件绝对路径
 		String mainProgramFile = "/home/uncle/Desktop/pc2_data/solve.java";
 
 		ExecuteRun executeRun = new ExecuteRun(serverConnection, run, mainProgramFile);
 		
+		//程序输出文件
 		File file = executeRun.getOutputFile();
 		
 		String info = executeRun.readFile(file);
@@ -129,7 +132,16 @@ public class ExecuteRunTest {
 		System.out.println("超时时间："+executeRun.getRanExecute().getProblem().getTimeOutInSeconds()+"秒");
 		
 		//=======================
+		ExecutionData executionData = executeRun.getRanExecute().getExecutionData();
+		if(!executionData.isCompileSuccess()) {
+			System.out.println("编译失败");
+		}
+		if(executionData.getExecuteExitValue() == 1) {
+			System.out.println("运行失败");
+		}
+
 		List<String> filenames = executeRun.getRanExecute().getTeamsOutputFilenames();
+		//executeRun.getRanExecute().getTeamsOutputFilenames() -- 》List的大小
 		System.out.println(filenames.size());
 		for(String name : filenames) {
 			System.out.println("输出文件>>>>:"+name);
@@ -143,6 +155,8 @@ public class ExecuteRunTest {
 		System.out.println("getExecutionData().getCompileStderr().getErrorMessage():"+executeRun.getRanExecute().getExecutionData().getCompileStderr().getErrorMessage());
 		System.out.println("getExecutionData().getCompileStdout().getName():"+executeRun.getRanExecute().getExecutionData().getCompileStdout().getName());
 		File compileErrorFile = new File(executeRun.getRanExecute().getExecutionData().getCompileStderr().getAbsolutePath());
+		
+		//---compileErrorFile一定会存在---
 		if(compileErrorFile.exists()) {
 			System.out.println("编译失败信息"+readFile(compileErrorFile));
 		}else{

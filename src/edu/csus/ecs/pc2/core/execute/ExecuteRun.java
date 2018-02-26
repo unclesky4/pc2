@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.UUID;
 
 import core.function.common.ServerConnection;
 import edu.csus.ecs.pc2.core.IInternalController;
@@ -22,9 +23,16 @@ public class ExecuteRun{
 	
 	Executable executable = null;
 	
+	//编译运行所在目录的绝对路径
+	String executeDirectoryName = null;
+	
 	IInternalContest iInternalContest = null;
 	
 	IInternalController iInternalController = null;
+	
+	public String getExecuteDirectoryName() {
+		return this.executeDirectoryName;
+	}
 	
 	//获取已运行的Executable对象
 	public Executable getRanExecute() {
@@ -56,6 +64,10 @@ public class ExecuteRun{
 		return info.toString();
 	}
 	
+	/**
+	 * 获取程序的输出文件
+	 * @return
+	 */
 	public File getOutputFile() {
 		String name = null;
 		for(String tmp : this.executable.getTeamsOutputFilenames()) {
@@ -64,6 +76,18 @@ public class ExecuteRun{
 		}
 		File runOutputFile = new File(this.executable.getDirName(this.executable.getExecutionData().getCompileStdout())+"/"+name);
 		return runOutputFile;
+	}
+	
+	/**
+	 * 获取程序的编译错误输出文件
+	 * @return
+	 */
+	public File getErrorFile() {
+		File file = null;
+		if(this.executable.getExecutionData() != null && this.executable.getExecutionData().getCompileStderr() != null) {
+			file = new File(this.executable.getExecutionData().getCompileStderr().getAbsolutePath());
+		}
+		return file;
 	}
 
 	/**
@@ -89,10 +113,16 @@ public class ExecuteRun{
 		this.executable = new Executable(iInternalContest, iInternalController, run, runFiles);
 		
 		//为编译运行的目录添加后缀，确保每次运行不在同一目录下（因为程序输出文件名相同，不能更改）
-		//this.executable.setExecuteDirectoryNameSuffix(UUID.randomUUID().toString().replace("-", ""));
-		
-		//executable.setUsingGUI(false);
-		
+		this.executable.setExecuteDirectoryNameSuffix(UUID.randomUUID().toString().replace("-", ""));
+		executable.setUsingGUI(false);
 		this.executable.execute();
+		
+		SerializedFile tmp = null;
+		tmp = executable.getExecutionData().getCompileStdout();
+		if(tmp == null) {
+			this.executeDirectoryName = "executesite1administrator1"+this.executable.getExecuteDirectoryNameSuffix();
+		}else {
+			this.executeDirectoryName = this.executable.getDirName(tmp);
+		}
 	}
 }

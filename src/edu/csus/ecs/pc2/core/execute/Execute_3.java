@@ -140,12 +140,17 @@ public class Execute_3 extends Executable{
 		//execute.clearDirectory(execute.getDirName(execute.getExecutionData().getCompileStdout()));
 		
 		ExecutionData eData = execute_3.getExecutionData();
+		//编译成功
 		if ((eData != null) && (!eData.isCompileSuccess()))
 	    {
-	      System.out.println("ssssssssssssss");
+	      System.out.println("编译失败");
 	    }
+		//运行失败
+		if(eData.getExecuteExitValue() == 1) {
+			System.out.println("运行发生错误，请检查输入参数");
+		}
 		if((eData != null) && (!eData.isExecuteSucess())) {
-			System.out.println("yyyyyyyyyyyyy");
+			System.out.println("运行成功");
 			System.out.println(eData.getExecuteProgramOutput() == null);
 		}
 		
